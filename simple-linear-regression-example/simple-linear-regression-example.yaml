@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 900f0d28-976b-46c7-ad5f-c5e0c972e173 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 60985c75-2ed9-4557-af3f-34c6f4aac237 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Showing how you can use GitHub, Terraform, snowflake, Fivetran, Dbt, and Hex to all come together in a project.
   projectId: c2d54e90-4ac3-4511-b6cf-85beb690ea3d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Simple Linear Regression Example
@@ -57,7 +57,7 @@ cells:
             DBT_DATABASE.PRODUCTION.STG_GOOGLE_SHEETS__LINEAR_REGRESSION
       dataFrameCell: false
       dataConnectionId: fc6be559-3ce5-43a0-8c0b-ad6947d842d0
-      resultVariableName: dataframe
+      resultVariableName: dataframe_2
       useRichDisplay: false
       sqlCellOutputType: PANDAS
       useQueryMode: false
@@ -78,13 +78,13 @@ cells:
     cellLabel: null
     config:
       source: |-
-        X = np.array(dataframe['X']).reshape(-1, 1)
-        y = np.array(dataframe['Y']).reshape(-1, 1)
+        X = np.array(dataframe_2['X']).reshape(-1, 1)
+        y = np.array(dataframe_2['Y']).reshape(-1, 1)
 
         # Separating the data into independent and dependent variables
         # Converting each dataframe into a numpy array
         # since each dataframe contains only one column
-        dataframe.dropna(inplace = True)
+        dataframe_2.dropna(inplace = True)
          
         # Dropping any rows with Nan values
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
