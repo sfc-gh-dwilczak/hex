@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 7f4a8bf2-9f96-4335-90bd-4f51f85bd2a4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 00f0d19c-f347-4a2f-9373-53e826884c72 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Showing how you can use GitHub, Terraform, snowflake, Fivetran, Dbt, and Hex to all come together in a project.
   projectId: c2d54e90-4ac3-4511-b6cf-85beb690ea3d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Simple Linear Regression Example
@@ -44,7 +44,7 @@ cells:
     config:
       source: |-
         ## Data
-        Data I made in a google sheet that Fivetran has ingested.
+        Data I made in a google sheet that Fivetran has ingested..
   - cellType: SQL
     cellId: 629f0607-5963-4113-8f25-f590aa673f43 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
     cellLabel: SQL 2
