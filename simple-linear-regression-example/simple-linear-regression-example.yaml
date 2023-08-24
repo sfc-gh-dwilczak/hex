@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 00f0d19c-f347-4a2f-9373-53e826884c72 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 900f0d28-976b-46c7-ad5f-c5e0c972e173 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Showing how you can use GitHub, Terraform, snowflake, Fivetran, Dbt, and Hex to all come together in a project.
   projectId: c2d54e90-4ac3-4511-b6cf-85beb690ea3d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Simple Linear Regression Example
