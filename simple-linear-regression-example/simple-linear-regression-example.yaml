@@ -1,0 +1,284 @@
+schemaVersion: 3
+meta:
+  sourceVersionId: 7f4a8bf2-9f96-4335-90bd-4f51f85bd2a4 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  description: Showing how you can use GitHub, Terraform, snowflake, Fivetran, Dbt, and Hex to all come together in a project.
+  projectId: c2d54e90-4ac3-4511-b6cf-85beb690ea3d # DO NOT CHANGE - Unique ID of the project from which this file was generated
+  title: Simple Linear Regression Example
+  timezone: null
+  appTheme: SYS_PREF
+  codeLanguage: PYTHON
+  status: null
+  categories: []
+  castDecimalsDefault: true
+  logicQueryCacheTimeout: null
+  publishedQueryCacheTimeout: null
+projectAssets:
+  dataConnections: []
+  envVars: []
+  secrets: []
+sharedAssets:
+  secrets: []
+  vcsPackages: []
+  dataConnections:
+    - dataConnectionId: 78473238-0bd7-443b-8c64-f57cf505cd60 # [Demo] Hex Public Data (snowflake)
+    - dataConnectionId: fc6be559-3ce5-43a0-8c0b-ad6947d842d0 # Snowflake (snowflake)
+  externalFileIntegrations: []
+cells:
+  - cellType: CODE
+    cellId: 188496b6-28b7-42af-b2e3-4c186b986d4f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        from sklearn.linear_model import LinearRegression
+        from sklearn.model_selection import train_test_split
+
+        import matplotlib.pyplot as plt
+        import numpy as np
+        import pandas as pd
+        import seaborn as sns
+        import matplotlib.lines as mlines
+        import matplotlib.transforms as mtransforms
+  - cellType: MARKDOWN
+    cellId: 5f26539a-0a24-4226-a386-545c1db0e8b1 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ## Data
+        Data I made in a google sheet that Fivetran has ingested.
+  - cellType: SQL
+    cellId: 629f0607-5963-4113-8f25-f590aa673f43 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: SQL 2
+    config:
+      source: |-
+        select 
+            x as x,
+            y as y
+        from
+            DBT_DATABASE.PRODUCTION.STG_GOOGLE_SHEETS__LINEAR_REGRESSION
+      dataFrameCell: false
+      dataConnectionId: fc6be559-3ce5-43a0-8c0b-ad6947d842d0
+      resultVariableName: dataframe
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
+  - cellType: MARKDOWN
+    cellId: e0613405-6e85-489e-b809-33258e36b51f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ## Trained and Scored.
+        Trained a simple linear regression model on a small x, y dataset from google sheets.
+  - cellType: CODE
+    cellId: c3ed0cbc-4dd0-436c-9c4d-ba1100d36be5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        X = np.array(dataframe['X']).reshape(-1, 1)
+        y = np.array(dataframe['Y']).reshape(-1, 1)
+
+        # Separating the data into independent and dependent variables
+        # Converting each dataframe into a numpy array
+        # since each dataframe contains only one column
+        dataframe.dropna(inplace = True)
+         
+        # Dropping any rows with Nan values
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
+         
+        # Splitting the data into training and testing data
+        regr = LinearRegression()
+         
+        regr.fit(X_train, y_train)
+        print(regr.score(X_test, y_test))
+  - cellType: CODE
+    cellId: 85feea89-c41a-4528-b4ae-93d76faf8ef5 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        data = {
+          "x": [x[0] for x in X.tolist()],
+          "y": [y[0] for y in y.tolist()],
+          "predictions": [y[0] for y in regr.predict(X).tolist()]
+        }
+
+        #load data into a DataFrame object:
+        df = pd.DataFrame(data)
+  - cellType: MARKDOWN
+    cellId: 57e861b8-a610-4a22-9c62-e6662c09e46b # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ## Plotting
+        Plotted the x,y and the predicted linear regression model results.
+  - cellType: CHARTV2
+    cellId: 28c7772a-85f7-4caf-baeb-107ed552752f # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      height: null
+      chartSpec:
+        type: layered
+        layers:
+          - id: 7a9b6fe6-dfe7-4d1a-89df-b2f8bbd29784
+            xAxis:
+              type: number
+              style:
+                grid:
+                  style: solid
+                ticks: {}
+                labels: {}
+              dataFrameColumn: x
+            series:
+              - id: 6b673f52-cd6a-4200-b590-c3c16f3ca158
+                type: scatter
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                dataFrameColumns:
+                  - y
+                colorOrder: ascending
+                color:
+                  type: static
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                filled: true
+              - id: 88bea1e9-a73d-48d0-a207-7878a0baf15f
+                type: line
+                axis:
+                  type: number
+                  style:
+                    grid:
+                      style: solid
+                    ticks: {}
+                    labels: {}
+                dataFrameColumns:
+                  - predictions
+                colorOrder: ascending
+                color:
+                  type: static
+                  color: "#F58518"
+                opacity:
+                  type: static
+                  value: 1
+                tooltip:
+                  type: auto
+                point: false
+                stroke: solid
+            dataFrame: df
+            seriesGroups:
+              - - 6b673f52-cd6a-4200-b590-c3c16f3ca158
+                - 88bea1e9-a73d-48d0-a207-7878a0baf15f
+        settings:
+          legend:
+            position: right
+          tooltip: true
+          selectionEnabled: false
+      chartSelection: {}
+      colorMappings: {}
+      resultVariable: filter_result
+      outputResult: false
+      displayTableConfig: null
+appLayout:
+  visibleMetadataFields:
+    - NAME
+    - DESCRIPTION
+    - AUTHOR
+    - LAST_EDITED
+    - LAST_RUN
+    - CATEGORIES
+    - STATUS
+    - TABLE_OF_CONTENTS
+  fullWidth: false
+  tabs:
+    - name: Tab 1
+      rows:
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 188496b6-28b7-42af-b2e3-4c186b986d4f
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 5f26539a-0a24-4226-a386-545c1db0e8b1
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 629f0607-5963-4113-8f25-f590aa673f43
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: e0613405-6e85-489e-b809-33258e36b51f
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: c3ed0cbc-4dd0-436c-9c4d-ba1100d36be5
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 85feea89-c41a-4528-b4ae-93d76faf8ef5
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 57e861b8-a610-4a22-9c62-e6662c09e46b
+                  height: null
+                  showLabel: true
+        - columns:
+            - start: 0
+              end: 120
+              elements:
+                - showSource: false
+                  hideOutput: false
+                  type: CELL
+                  cellId: 28c7772a-85f7-4caf-baeb-107ed552752f
+                  height: null
+                  showLabel: true
