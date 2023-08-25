@@ -1,6 +1,6 @@
 schemaVersion: 3
 meta:
-  sourceVersionId: 60985c75-2ed9-4557-af3f-34c6f4aac237 # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
+  sourceVersionId: 9b4b1b20-9e9d-4dec-8e41-126a4ed3559c # DO NOT CHANGE - Hex uses this to match up project versions when reimporting the file
   description: Showing how you can use GitHub, Terraform, snowflake, Fivetran, Dbt, and Hex to all come together in a project.
   projectId: c2d54e90-4ac3-4511-b6cf-85beb690ea3d # DO NOT CHANGE - Unique ID of the project from which this file was generated
   title: Simple Linear Regression Example
@@ -188,6 +188,54 @@ cells:
       resultVariable: filter_result
       outputResult: false
       displayTableConfig: null
+  - cellType: MARKDOWN
+    cellId: cfa0f983-c8b1-4d6c-a3d0-17c6d14f29b2 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: "## Saving the predictions back to snowflake."
+  - cellType: WRITEBACK
+    cellId: 7d4984d3-da7a-4f92-8dd2-b4be8883ff6e # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      dataframeName: df
+      dataConnectionId: fc6be559-3ce5-43a0-8c0b-ad6947d842d0
+      databaseName: HEX_DATABASE
+      dynamicTableName: false
+      overwrite: true
+      runInApp: false
+      runInLogicView: false
+      runOnScheduledRun: false
+      schemaName: ML_PREDICTIONS
+      tableName: linear_regression_model_predictions
+  - cellType: MARKDOWN
+    cellId: 82204910-ce2e-4c24-a513-dee6089cd132 # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        ## Showing Saved Predictions
+        Showing the predictions that are stored in snowflake and documented in DBT.
+  - cellType: SQL
+    cellId: a9951dcf-ff43-4a37-a50f-d35269c6c7fa # DO NOT CHANGE - Hex uses this to match up cells when reimporting the file, and detect any changes to existing cells
+    cellLabel: null
+    config:
+      source: |-
+        select 
+            X,
+            Y,
+            PREDICTIONS
+        from
+            "DBT_DATABASE"."PRODUCTION"."STG_HEX__LINEAR_REGRESSION_MODEL_PREDICTIONS"
+      dataFrameCell: false
+      dataConnectionId: fc6be559-3ce5-43a0-8c0b-ad6947d842d0
+      resultVariableName: dataframe_3
+      useRichDisplay: false
+      sqlCellOutputType: PANDAS
+      useQueryMode: false
+      castDecimals: true
+      useNativeDates: true
+      outputFilteredResult: true
+      allowDuplicateColumns: false
+      tableDisplayConfig: null
 appLayout:
   visibleMetadataFields:
     - NAME
